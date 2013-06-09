@@ -1,7 +1,7 @@
-# Game of Life
+# Game of Life 3D
 
 ## About
-An implementation of Conway's Game of Life in Processing.
+Because 2D just doesn't cut it.
 
 ## License
 MIT License (See LICENSE)
