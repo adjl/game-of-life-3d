@@ -6,7 +6,6 @@ final int ELECTRIC_BLUE = #00C0FF;
 final int BLACK = #000000;
 
 final float THETA = PI / 180.0;
-final int DELAY = 200;
 
 float angle = 0.0;
 
@@ -20,7 +19,7 @@ void setup() {
     size(SCREEN_WIDTH, SCREEN_HEIGHT, P3D);
     background(BLACK);
 
-    int cellSize = 5;
+    int cellSize = 2;
 
     int gridWidth = width / cellSize / 15;
     int gridHeight = gridWidth;
@@ -45,10 +44,6 @@ void setup() {
 void draw() {
     grid.update();
     drawGrid();
-
-    try {
-        Thread.sleep(DELAY);
-    } catch (InterruptedException e) {}
 }
 
 void keyPressed() {
