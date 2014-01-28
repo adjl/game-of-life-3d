@@ -16,6 +16,10 @@ int gridWidth;
 int gridHeight;
 int gridDepth;
 
+int centreX;
+int centreY;
+int centreZ;
+
 void setup() {
     size(SCREEN_WIDTH, SCREEN_HEIGHT, P3D);
     background(BLACK);
@@ -26,37 +30,49 @@ void setup() {
     gridHeight = gridWidth;
     gridDepth = gridWidth;
 
-    game = new Grid(gridWidth, gridHeight, gridDepth, cellSize, CYAN, ELECTRIC_BLUE, BLACK);
+    centreX = gridWidth / 2 * cellSize;
+    centreY = gridHeight / 2 * cellSize;
+    centreZ = gridDepth / 2 * cellSize;
 
-    view();
-    game.randomiseGrid();
-    game.draw();
-}
-
-void view() {
-    int centreX = gridWidth / 2 * cellSize;
-    int centreY = gridHeight / 2 * cellSize;
-    int centreZ = gridDepth / 2 * cellSize;
-
-    int x = centreX;
-    int y = centreY;
-    int z = centreZ * 3;
-    x = z;
-
-    float eyeX = x * cos(angle) + z * sin(angle);
-    float eyeY = y;
-    float eyeZ = -x * sin(angle) + z * cos(angle);
+    int eyeX = centreZ * 3;
+    int eyeY = centreY;
+    int eyeZ = centreZ * 3;
 
     camera(eyeX, eyeY, eyeZ, centreX, centreY, centreZ, 0, 1, 0);
-    angle = (angle + 0.1) % 360;
+
+    game = new Grid(gridWidth, gridHeight, gridDepth, cellSize, CYAN, ELECTRIC_BLUE, BLACK);
+
+    game.randomiseGrid();
+
+    pushMatrix();
+    rotateY(angle);
+    translate(-centreX, 0, -centreZ);
+    game.draw();
+    popMatrix();
+
+    stroke(#FF0000);
+    pushMatrix();
+    translate(centreX, centreY, centreZ);
+    box(cellSize);
+    popMatrix();
+
+    angle += PI / 180;
 }
 
 void draw() {
-    try {
-        Thread.sleep(DELAY);
-    } catch (InterruptedException e) {}
-
-    view();
     // game.update();
+
+    pushMatrix();
+    rotateY(angle);
+    translate(-centreX, 0, -centreZ);
     game.draw();
+    popMatrix();
+
+    stroke(#FF0000);
+    pushMatrix();
+    translate(centreX, centreY, centreZ);
+    box(cellSize);
+    popMatrix();
+
+    angle += PI / 180;
 }
