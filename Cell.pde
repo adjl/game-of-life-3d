@@ -2,15 +2,15 @@ class Cell {
 
     int x;
     int y;
+    int z;
     int size;
-
     boolean alive;
 
-    Cell(int x, int y, int size, boolean alive) {
+    Cell(int x, int y, int z, int size, boolean alive) {
         this.x = x;
         this.y = y;
+        this.z = z;
         this.size = size;
-
         this.alive = alive;
     }
 
@@ -27,7 +27,10 @@ class Cell {
     }
 
     void draw() {
-        rect(x * size, y * size, size, size);
+        pushMatrix();
+        translate(x * size, y * size, z * size);
+        box(size);
+        popMatrix();
     }
 
 }

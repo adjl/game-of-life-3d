@@ -8,78 +8,55 @@ final int BLACK = #000000;
 final int DELAY = 100;
 
 int cellSize = 5;
+float angle = 0;
 
 Grid game;
-boolean running;
+
+int gridWidth;
+int gridHeight;
+int gridDepth;
 
 void setup() {
-    size(SCREEN_WIDTH, SCREEN_HEIGHT);
+    size(SCREEN_WIDTH, SCREEN_HEIGHT, P3D);
     background(BLACK);
-    pause();
 
-    game = new Grid(width, height, cellSize, CYAN, ELECTRIC_BLUE, BLACK);
+    gridWidth = width / cellSize / 15;
+    // gridHeight = height / cellSize / 15;
+    // gridDepth = (gridWidth + gridHeight) / 2;
+    gridHeight = gridWidth;
+    gridDepth = gridWidth;
+
+    game = new Grid(gridWidth, gridHeight, gridDepth, cellSize, CYAN, ELECTRIC_BLUE, BLACK);
+
+    view();
+    game.randomiseGrid();
+    game.draw();
 }
 
-void play() {
-    running = true;
-}
+void view() {
+    int centreX = gridWidth / 2 * cellSize;
+    int centreY = gridHeight / 2 * cellSize;
+    int centreZ = gridDepth / 2 * cellSize;
 
-void pause() {
-    running = false;
-}
+    int x = centreX;
+    int y = centreY;
+    int z = centreZ * 3;
+    x = z;
 
-void keyPressed() {
-    switch (key) {
-        case ENTER:
-        case RETURN:
-            if (running) pause();
-            else play();
-            break;
-        case BACKSPACE:
-            if (!running) {
-                game.randomiseGrid();
-                game.draw();
-            }
-            break;
-    }
-}
+    float eyeX = x * cos(angle) + z * sin(angle);
+    float eyeY = y;
+    float eyeZ = -x * sin(angle) + z * cos(angle);
 
-void mouseMoved() {
-    if (!running) {
-        int x = game.getCoordinate(mouseX);
-        int y = game.getCoordinate(mouseY);
-
-        game.draw();
-        game.highlight(x, y);
-    }
-}
-
-void mousePressed() {
-    if (!running) {
-        int x = game.getCoordinate(mouseX);
-        int y = game.getCoordinate(mouseY);
-
-        switch (mouseButton) {
-            case LEFT:
-                game.live(x, y);
-                break;
-            case RIGHT:
-                game.die(x, y);
-                break;
-        }
-
-        game.draw();
-        game.highlight(x, y);
-    }
+    camera(eyeX, eyeY, eyeZ, centreX, centreY, centreZ, 0, 1, 0);
+    angle = (angle + 0.1) % 360;
 }
 
 void draw() {
-    if (running) {
-        try {
-            Thread.sleep(DELAY);
-        } catch (InterruptedException e) {}
+    try {
+        Thread.sleep(DELAY);
+    } catch (InterruptedException e) {}
 
-        game.update();
-        game.draw();
-    }
+    view();
+    // game.update();
+    game.draw();
 }
