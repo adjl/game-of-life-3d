@@ -1,31 +1,32 @@
 class Grid {
 
+    static final int BLACK = #000000;
+    static final int WHITE = #FFFFFF;
+
     int width;
     int height;
     int depth;
     int cellSize;
 
-    int colour;
-    int highlight;
-    int background;
-
+    boolean filled;
     Cell[][][] oldCells;
     Cell[][][] cells;
 
-    Grid(int width, int height, int depth, int cellSize, int colour, int highlight, int background) {
+    Grid(int width, int height, int depth, int cellSize) {
         this.width = width;
         this.height = height;
         this.depth = depth;
         this.cellSize = cellSize;
 
-        this.colour = colour;
-        this.highlight = highlight;
-        this.background = background;
-
+        filled = true;
         oldCells = new Cell[depth][height][width];
         cells = new Cell[depth][height][width];
 
         initialise();
+    }
+
+    void toggleFill() {
+        filled = !filled;
     }
 
     void initialise() {
@@ -58,9 +59,14 @@ class Grid {
     }
 
     void draw() {
-        noFill();
-        stroke(colour);
-        background(background);
+        background(BLACK);
+        if (filled) {
+            stroke(BLACK);
+            fill(WHITE);
+        } else {
+            stroke(WHITE);
+            noFill();
+        }
 
         for (int z = 0; z < depth; z++) {
             for (int y = 0; y < height; y++) {

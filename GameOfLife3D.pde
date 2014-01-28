@@ -1,8 +1,6 @@
 final int SCREEN_WIDTH = 1366;
 final int SCREEN_HEIGHT = 768;
 
-final int CYAN = #00FFFF;
-final int ELECTRIC_BLUE = #00C0FF;
 final int BLACK = #000000;
 
 final float THETA = PI / 180.0;
@@ -21,7 +19,7 @@ void setup() {
     size(SCREEN_WIDTH, SCREEN_HEIGHT, P3D);
     background(BLACK);
 
-    int cellSize = 2;
+    int cellSize = 5;
 
     int gridWidth = width / cellSize / 15;
     int gridHeight = gridWidth;
@@ -37,7 +35,7 @@ void setup() {
 
     camera(eyeX, eyeY, eyeZ, centreX, centreY, centreZ, 0, 1, 0);
 
-    grid = new Grid(gridWidth, gridHeight, gridDepth, cellSize, CYAN, ELECTRIC_BLUE, BLACK);
+    grid = new Grid(gridWidth, gridHeight, gridDepth, cellSize);
 
     grid.randomise();
     drawGrid();
@@ -56,6 +54,9 @@ void keyPressed() {
     switch (key) {
         case 'r':
             running = !running;
+            break;
+        case 'f':
+            grid.toggleFill();
             break;
         case 'j':
             angle -= THETA;
