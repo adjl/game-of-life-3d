@@ -42,12 +42,12 @@ void setup() {
 }
 
 void draw() {
+    grid.update();
+    drawGrid();
+
     try {
         Thread.sleep(DELAY);
     } catch (InterruptedException e) {}
-
-    grid.update();
-    drawGrid();
 }
 
 void drawGrid() {
