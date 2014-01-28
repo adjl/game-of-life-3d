@@ -43,6 +43,8 @@ void setup() {
 }
 
 void draw() {
+    lights();
+
     if (running) grid.update();
     drawGrid();
 
