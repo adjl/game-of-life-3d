@@ -6,6 +6,7 @@ final int ELECTRIC_BLUE = #00C0FF;
 final int BLACK = #000000;
 
 final float THETA = PI / 180.0;
+final int DELAY = 100;
 
 float angle = 0.0;
 
@@ -44,6 +45,10 @@ void setup() {
 void draw() {
     grid.update();
     drawGrid();
+
+    try {
+        Thread.sleep(DELAY);
+    } catch (InterruptedException e) {}
 }
 
 void keyPressed() {
