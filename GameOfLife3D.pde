@@ -5,6 +5,7 @@ final int CYAN = #00FFFF;
 final int ELECTRIC_BLUE = #00C0FF;
 final int BLACK = #000000;
 
+final float THETA = PI / 180.0;
 final int DELAY = 200;
 
 float angle = 0.0;
@@ -29,9 +30,9 @@ void setup() {
     centreY = gridHeight / 2 * cellSize;
     centreZ = gridDepth / 2 * cellSize;
 
-    int eyeX = centreX * 2;
+    int eyeX = centreX * 3;
     int eyeY = centreY;
-    int eyeZ = centreZ * 2;
+    int eyeZ = centreZ * 3;
 
     camera(eyeX, eyeY, eyeZ, centreX, centreY, centreZ, 0, 1, 0);
 
@@ -50,12 +51,23 @@ void draw() {
     } catch (InterruptedException e) {}
 }
 
+void keyPressed() {
+    switch (key) {
+        case 'J':
+        case 'j':
+            angle -= THETA;
+            break;
+        case 'K':
+        case 'k':
+            angle += THETA;
+            break;
+    }
+}
+
 void drawGrid() {
     pushMatrix();
     rotateY(angle);
     translate(-centreX, 0, -centreZ);
     grid.draw();
     popMatrix();
-
-    angle += PI / 180.0;
 }
