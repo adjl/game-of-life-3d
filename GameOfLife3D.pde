@@ -8,6 +8,7 @@ final int BLACK = #000000;
 final float THETA = PI / 180.0;
 final int DELAY = 100;
 
+boolean running = false;
 float angle = 0.0;
 
 int centreX;
@@ -43,7 +44,7 @@ void setup() {
 }
 
 void draw() {
-    grid.update();
+    if (running) grid.update();
     drawGrid();
 
     try {
@@ -53,11 +54,12 @@ void draw() {
 
 void keyPressed() {
     switch (key) {
-        case 'J':
+        case 'r':
+            running = !running;
+            break;
         case 'j':
             angle -= THETA;
             break;
-        case 'K':
         case 'k':
             angle += THETA;
             break;
