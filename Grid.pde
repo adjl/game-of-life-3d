@@ -3,7 +3,7 @@ class Grid {
     int width;
     int height;
     int depth;
-    int size;
+    int cellSize;
 
     int colour;
     int highlight;
@@ -12,11 +12,11 @@ class Grid {
     Cell[][][] oldCells;
     Cell[][][] cells;
 
-    Grid(int width, int height, int depth, int size, int colour, int highlight, int background) {
+    Grid(int width, int height, int depth, int cellSize, int colour, int highlight, int background) {
         this.width = width;
         this.height = height;
         this.depth = depth;
-        this.size = size;
+        this.cellSize = cellSize;
 
         this.colour = colour;
         this.highlight = highlight;
@@ -25,68 +25,61 @@ class Grid {
         oldCells = new Cell[depth][height][width];
         cells = new Cell[depth][height][width];
 
-        initialiseGrid();
+        initialise();
     }
 
-    int getCoordinate(int coordinate) {
-        return (max(coordinate - size, -1) + 1) / size;
-    }
-
-    void initialiseGrid() {
+    void initialise() {
         for (int z = 0; z < depth; z++) {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    cells[z][y][x] = new Cell(x, y, z, size, false);
+                    cells[z][y][x] = new Cell(x, y, z, cellSize, false);
                 }
             }
         }
     }
 
-    void randomiseGrid() {
+    void randomise() {
         for (int z = 0; z < depth; z++) {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    if (int(random(2)) == 1) {
-                        cells[z][y][x].live();
-                    } else {
-                        cells[z][y][x].die();
-                    }
+                    if (int(random(2)) == 1) cells[z][y][x].live();
+                    else cells[z][y][x].die();
                 }
             }
         }
     }
 
-    void copyGrid() {
+    void copy() {
         for (int z = 0; z < depth; z++) {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    oldCells[z][y][x] = new Cell(x, y, z, size, cells[z][y][x].isAlive());
+                    oldCells[z][y][x] = new Cell(x, y, z, cellSize, cells[z][y][x].isAlive());
                 }
             }
         }
-    }
-
-    void update() {
-        copyGrid();
-        tick();
     }
 
     void tick() {
         for (int z = 0; z < depth; z++) {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    if (alive(x, y, z) && neighbours(x, y, z) < 6) {
+                    if (isAlive(x, y, z) && neighbours(x, y, z) < 6) {
                         die(x, y, z);
-                    } else if (alive(x, y, z) && neighbours(x, y, z) >= 6 && neighbours(x, y, z) <= 9) {
+                    } else if (isAlive(x, y, z) && neighbours(x, y, z) >= 6 && neighbours(x, y, z) <= 9) {
                         live(x, y, z);
-                    } else if (alive(x, y, z) && neighbours(x, y, z) > 9) {
+                    } else if (isAlive(x, y, z) && neighbours(x, y, z) > 9) {
                         die(x, y, z);
-                    } else if (dead(x, y, z) && neighbours(x, y, z) == 9) {
+                    } else if (!isAlive(x, y, z) && neighbours(x, y, z) == 9) {
                         live(x, y, z);
                     }
                 }
             }
         }
+    }
+
+    void update() {
+        copy();
+        tick();
     }
 
     int neighbours(int x, int y, int z) {
@@ -107,12 +100,8 @@ class Grid {
         return neighbours;
     }
 
-    boolean alive(int x, int y, int z) {
+    boolean isAlive(int x, int y, int z) {
         return oldCells[z][y][x].isAlive();
-    }
-
-    boolean dead(int x, int y, int z) {
-        return !oldCells[z][y][x].isAlive();
     }
 
     void live(int x, int y, int z) {
@@ -121,12 +110,6 @@ class Grid {
 
     void die(int x, int y, int z) {
         cells[z][y][x].die();
-    }
-
-    void highlight(int x, int y, int z) {
-        fill(highlight);
-        stroke(highlight);
-        cells[z][y][x].draw();
     }
 
     void draw() {
