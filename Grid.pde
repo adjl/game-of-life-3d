@@ -1,8 +1,5 @@
 class Grid {
 
-    static final int BLACK = #000000;
-    static final int WHITE = #FFFFFF;
-
     int width;
     int height;
     int depth;

@@ -2,6 +2,7 @@ final int SCREEN_WIDTH = 1366;
 final int SCREEN_HEIGHT = 768;
 
 final int BLACK = #000000;
+final int WHITE = #FFFFFF;
 
 final float THETA = PI / 180.0;
 final int DELAY = 100;
@@ -21,7 +22,7 @@ void setup() {
 
     int cellSize = 5;
 
-    int gridWidth = width / cellSize / 15;
+    int gridWidth = 32;
     int gridHeight = gridWidth;
     int gridDepth = gridWidth;
 
