@@ -104,7 +104,7 @@ class Grid {
         void run() {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    if (int(random(2)) == 1) cells[z][y][x].live();
+                    if (int(random(5)) == 0) cells[z][y][x].live();
                     else cells[z][y][x].die();
                 }
             }
@@ -141,13 +141,13 @@ class Grid {
         void run() {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    if (isAlive(x, y, z) && neighbours(x, y, z) < 6) {
+                    if (isAlive(x, y, z) && neighbours(x, y, z) < 7) {
                         die(x, y, z);
-                    } else if (isAlive(x, y, z) && neighbours(x, y, z) >= 6 && neighbours(x, y, z) <= 9) {
+                    } else if (isAlive(x, y, z) && neighbours(x, y, z) >= 7 && neighbours(x, y, z) <= 17) {
                         live(x, y, z);
-                    } else if (isAlive(x, y, z) && neighbours(x, y, z) > 9) {
+                    } else if (isAlive(x, y, z) && neighbours(x, y, z) > 17) {
                         die(x, y, z);
-                    } else if (!isAlive(x, y, z) && neighbours(x, y, z) == 9) {
+                    } else if (!isAlive(x, y, z) && neighbours(x, y, z) == 8) {
                         live(x, y, z);
                     }
                 }

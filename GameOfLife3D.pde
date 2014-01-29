@@ -55,8 +55,12 @@ void draw() {
 
 void keyPressed() {
     switch (key) {
-        case 'r':
+        case 'p':
             running = !running;
+            break;
+        case 'r':
+            grid.randomise();
+            drawGrid();
             break;
         case 'f':
             grid.toggleFill();
