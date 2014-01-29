@@ -57,19 +57,12 @@ class Grid {
 
   void draw() {
     background(BLACK);
-    if (filled) {
-      stroke(BLACK);
-      fill(GREY);
-    } else {
-      stroke(GREY);
-      noFill();
-    }
 
     for (int z = 0; z < depth; z++) {
       for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
           Cell cell = cells[z][y][x];
-          if (cell.isAlive()) cell.draw();
+          if (cell.isAlive()) cell.draw(filled);
         }
       }
     }

@@ -1,8 +1,8 @@
 final int SCREEN_WIDTH = 1366;
 final int SCREEN_HEIGHT = 768;
 
+final int MAX_COLOUR = 256;
 final int BLACK = #000000;
-final int GREY = #808080;
 
 final float THETA = PI / 180.0;
 final int DELAY = 100;
