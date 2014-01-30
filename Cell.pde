@@ -15,7 +15,7 @@ class Cell {
     this.size = size;
     this.alive = alive;
 
-    this.colour = BLACK;
+    colour = BLACK;
   }
 
   boolean isAlive() {
