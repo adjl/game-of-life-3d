@@ -30,9 +30,9 @@ void setup() {
   centreY = gridHeight / 2 * cellSize;
   centreZ = gridDepth / 2 * cellSize;
 
-  int eyeX = centreX * 2;
+  int eyeX = centreX;
   int eyeY = centreY;
-  int eyeZ = centreZ * 2;
+  int eyeZ = centreZ * 3;
 
   camera(eyeX, eyeY, eyeZ, centreX, centreY, centreZ, 0, 1, 0);
 
@@ -77,7 +77,7 @@ void keyPressed() {
 void drawGrid() {
   pushMatrix();
   rotateY(angle);
-  translate(-centreX, 0, -centreZ);
+  translate(0, 0, -centreZ);
   grid.draw();
   popMatrix();
 }
