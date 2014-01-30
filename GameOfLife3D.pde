@@ -20,21 +20,16 @@ void setup() {
   size(SCREEN_WIDTH, SCREEN_HEIGHT, P3D);
   background(BLACK);
 
-  int cellSize = 5;
-
   int gridWidth = 32;
   int gridHeight = gridWidth;
   int gridDepth = gridWidth;
+  int cellSize = 5;
 
   centreX = gridWidth / 2 * cellSize;
   centreY = gridHeight / 2 * cellSize;
   centreZ = gridDepth / 2 * cellSize;
 
-  int eyeX = centreX;
-  int eyeY = centreY;
-  int eyeZ = centreZ * 3;
-
-  camera(eyeX, eyeY, eyeZ, centreX, centreY, centreZ, 0, 1, 0);
+  camera(0, 0, centreZ * 3, 0, 0, 0, 0, 1, 0);
 
   grid = new Grid(gridWidth, gridHeight, gridDepth, cellSize);
 
@@ -66,10 +61,10 @@ void keyPressed() {
       grid.toggleFill();
       break;
     case 'j':
-      angle -= THETA;
+      angle += THETA;
       break;
     case 'k':
-      angle += THETA;
+      angle -= THETA;
       break;
   }
 }
@@ -77,7 +72,7 @@ void keyPressed() {
 void drawGrid() {
   pushMatrix();
   rotateY(angle);
-  translate(0, 0, -centreZ);
+  translate(-centreX, -centreY, -centreZ);
   grid.draw();
   popMatrix();
 }
