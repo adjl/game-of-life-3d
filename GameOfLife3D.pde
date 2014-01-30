@@ -33,6 +33,8 @@ void setup() {
 
   grid = new Grid(gridWidth, gridHeight, gridDepth, cellSize);
 
+  lights();
+
   grid.randomise();
   drawGrid();
 }
