@@ -10,6 +10,8 @@ A 3D implementation of Conway's Game of Life in Processing.
 `r` - Randomise the grid (generate a new seed)  
 `j` - Rotate the camera left around the grid  
 `k` - Rotate the camera right around the grid  
+`h` - Zoom the camera in  
+`l` - Zoom the camera out  
 `q` - Quit
 
 ## Parameters
