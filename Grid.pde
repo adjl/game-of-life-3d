@@ -1,12 +1,12 @@
 class Grid {
 
+  final color BLACK = color(0, 0, 0);
+
   int width;
   int height;
   int depth;
   int cellSize;
-
-  boolean filled;
-  Cell[][][] oldCells;
+  Cell[][][] previousCells;
   Cell[][][] cells;
 
   Grid(int width, int height, int depth, int cellSize) {
@@ -14,114 +14,93 @@ class Grid {
     this.height = height;
     this.depth = depth;
     this.cellSize = cellSize;
-
-    filled = true;
-    oldCells = new Cell[depth][height][width];
+    previousCells = new Cell[depth][height][width];
     cells = new Cell[depth][height][width];
 
     initialise();
   }
 
-  void toggleFill() {
-    filled = !filled;
+  void initialise() { // Fill grid with cells
+    for (int i = 0; i < depth; i++) {
+      final int z = i; // To reference z within the inner class
+      (new Thread() {
+        public void run() {
+          for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+              cells[z][y][x] = new Cell(x, y, z, cellSize, false);
+            }
+          }
+        }
+      }).start();
+    }
   }
 
-  void initialise() {
-    for (int z = 0; z < depth; z++) {
-      (new InitialiseThread(z)).start();
+  void clear() {
+    for (int i = 0; i < depth; i++) {
+      final int z = i;
+      (new Thread() {
+        public void run() {
+          for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+              cells[z][y][x].die();
+            }
+          }
+        }
+      }).start();
     }
   }
 
   void randomise() {
-    for (int z = 0; z < depth; z++) {
-      (new RandomiseThread(z)).start();
-    }
-  }
-
-  void copy() {
-    for (int z = 0; z < depth; z++) {
-      (new CopyThread(z)).start();
-    }
-  }
-
-  void tick() {
-    for (int z = 0; z < depth; z++) {
-      (new TickThread(z)).start();
+    for (int i = 0; i < depth; i++) {
+      final int z = i;
+      (new Thread() {
+        public void run() {
+          for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+              if (int(random(CELL_PROBABILITY_TO_LIVE)) == 0) cells[z][y][x].live();
+              else cells[z][y][x].die();
+            }
+          }
+        }
+      }).start();
     }
   }
 
   void update() {
-    copy();
-    tick();
+    for (int i = 0; i < depth; i++) { // Copy cells to purely calculate the next generation
+      final int z = i;
+      (new Thread() {
+        public void run() {
+          for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+              previousCells[z][y][x] = new Cell(x, y, z, cellSize, cells[z][y][x].isAlive());
+            }
+          }
+        }
+      }).start();
+    }
+
+    for (int z = 0; z < depth; z++) { // Calculate next generation
+      (new TickThread(z)).start();
+    }
   }
 
   void draw() {
-    background(BLACK);
-
-    for (int z = 0; z < depth; z++) {
+    pushMatrix();
+    rotateY(angle);
+    translate(-centreX, -centreY, -centreZ); // TODO What is this for?
+    background(BLACK); // Draw over previous grid
+    for (int z = 0; z < depth; z++) { // NOTE Cannot multithread cell drawing
       for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
           Cell cell = cells[z][y][x];
-          if (cell.isAlive()) cell.draw(filled);
+          if (cell.isAlive()) cell.draw();
         }
       }
     }
+    popMatrix();
   }
 
-  class InitialiseThread extends Thread {
-
-    int z;
-
-    InitialiseThread(int z) {
-      this.z = z;
-    }
-
-    void run() {
-      for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-          cells[z][y][x] = new Cell(x, y, z, cellSize, false);
-        }
-      }
-    }
-
-  }
-
-  class RandomiseThread extends Thread {
-
-    int z;
-
-    RandomiseThread(int z) {
-      this.z = z;
-    }
-
-    void run() {
-      for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-          if (int(random(5)) == 0) cells[z][y][x].live();
-          else cells[z][y][x].die();
-        }
-      }
-    }
-
-  }
-
-  class CopyThread extends Thread {
-
-    int z;
-
-    CopyThread(int z) {
-      this.z = z;
-    }
-
-    void run() {
-      for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-          oldCells[z][y][x] = new Cell(x, y, z, cellSize, cells[z][y][x].isAlive());
-        }
-      }
-    }
-
-  }
 
   class TickThread extends Thread {
 
@@ -135,48 +114,36 @@ class Grid {
       for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
           if (isAlive(x, y, z) && neighbours(x, y, z) < 7) {
-            die(x, y, z);
-          } else if (isAlive(x, y, z) && neighbours(x, y, z) >= 7 && neighbours(x, y, z) <= 17) {
-            live(x, y, z);
+            cells[z][y][x].die(); // Die of underpopulation
           } else if (isAlive(x, y, z) && neighbours(x, y, z) > 17) {
-            die(x, y, z);
+            cells[z][y][x].die(); // Die of overpopulation
           } else if (!isAlive(x, y, z) && neighbours(x, y, z) == 8) {
-            live(x, y, z);
+            cells[z][y][x].live(); // Live by reproduction
           }
         }
       }
     }
 
     boolean isAlive(int x, int y, int z) {
-      return oldCells[z][y][x].isAlive();
+      return previousCells[z][y][x].isAlive();
     }
 
     int neighbours(int x, int y, int z) {
       int neighbours = 0;
 
-      for (int zi = z - 1; zi <= z + 1; zi++) {
+      for (int zi = z - 1; zi <= z + 1; zi++) { // NOTE Wrapping does not work due to multithreading
         if (zi < 0 || zi >= depth) continue;
         for (int yi = y - 1; yi <= y + 1; yi++) {
           if (yi < 0 || yi >= height) continue;
           for (int xi = x - 1; xi <= x + 1; xi++) {
             if (xi < 0 || xi >= width) continue;
             if (xi == x && yi == y && zi == z) continue;
-            if (oldCells[zi][yi][xi].isAlive()) neighbours++;
+            if (previousCells[zi][yi][xi].isAlive()) neighbours++;
           }
         }
       }
 
       return neighbours;
     }
-
-    void live(int x, int y, int z) {
-      cells[z][y][x].live();
-    }
-
-    void die(int x, int y, int z) {
-      cells[z][y][x].die();
-    }
-
   }
-
 }

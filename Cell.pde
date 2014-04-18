@@ -1,11 +1,12 @@
 class Cell {
 
+  final int MAX_COLOUR_VALUE = 256;
+
   int x;
   int y;
   int z;
   int size;
   boolean alive;
-
   color colour;
 
   Cell(int x, int y, int z, int size, boolean alive) {
@@ -14,8 +15,7 @@ class Cell {
     this.z = z;
     this.size = size;
     this.alive = alive;
-
-    colour = BLACK;
+    colour = 0; // No colour
   }
 
   boolean isAlive() {
@@ -24,27 +24,23 @@ class Cell {
 
   void live() {
     alive = true;
-    if (colour == BLACK) colour = color(random(MAX_COLOUR), random(MAX_COLOUR), random(MAX_COLOUR));
+    colour = generateRandomColour();
   }
 
   void die() {
     alive = false;
-    colour = BLACK;
+    colour = 0;
   }
 
-  void draw(boolean filled) {
-    if (filled) {
-      noStroke();
-      fill(colour);
-    } else {
-      stroke(colour);
-      noFill();
-    }
-
+  void draw() {
+    fill(colour);
     pushMatrix();
     translate(x * size, y * size, z * size);
     box(size);
     popMatrix();
   }
 
+  color generateRandomColour() {
+    return color(random(MAX_COLOUR_VALUE), random(MAX_COLOUR_VALUE), random(MAX_COLOUR_VALUE));
+  }
 }
