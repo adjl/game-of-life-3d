@@ -5,11 +5,11 @@ A 3D implementation of Conway's Game of Life in Processing.
 ![Second screenshot of GameOfLife3D](https://github.com/adeijosol/GameOfLife3D/raw/master/screenshot2.png)
 
 ## Controls
-`p` - Resume/pause the simulation
-`c` - Clear the grid
-`r` - Randomise the grid (generate a new seed)
-`j` - Rotate the camera left around the grid
-`k` - Rotate the camera right around the grid
+`p` - Resume/pause the simulation  
+`c` - Clear the grid  
+`r` - Randomise the grid (generate a new seed)  
+`j` - Rotate the camera left around the grid  
+`k` - Rotate the camera right around the grid  
 `q` - Quit
 
 ## Parameters
