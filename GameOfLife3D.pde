@@ -15,6 +15,7 @@ final float RADIAN = PI / 180.0;
 
 boolean simulationIsRunning = false;
 float cameraAngle = 0.0;
+float zoomLevel = RADIAN * 175;
 
 int centreX;
 int centreY;
@@ -30,7 +31,7 @@ void setup() {
   centreY = GRID_HEIGHT / 2 * CELL_SIZE;
   centreZ = GRID_DEPTH / 2 * CELL_SIZE;
 
-  camera(0, 0, centreZ * 3, 0, 0, 0, 0, 1, 0);
+  camera(0, 0, centreZ * zoomLevel, 0, 0, 0, 0, 1, 0);
 
   grid = new Grid(GRID_WIDTH, GRID_HEIGHT, GRID_DEPTH, CELL_SIZE);
   grid.randomise();
@@ -65,6 +66,14 @@ void keyPressed() {
       break;
     case 'k': // Rotate camera right
       cameraAngle -= RADIAN;
+      break;
+    case 'h': // Zoom in
+      zoomLevel -= RADIAN;
+      camera(0, 0, centreZ * zoomLevel, 0, 0, 0, 0, 1, 0);
+      break;
+    case 'l': // Zoom out
+      zoomLevel += RADIAN;
+      camera(0, 0, centreZ * zoomLevel, 0, 0, 0, 0, 1, 0);
       break;
     case 'q': // Quit
       exit();
