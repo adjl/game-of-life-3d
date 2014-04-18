@@ -87,8 +87,8 @@ class Grid {
 
   void draw() {
     pushMatrix();
-    rotateY(angle);
-    translate(-centreX, -centreY, -centreZ); // TODO What is this for?
+    rotateY(cameraAngle);
+    translate(-centreX, -centreY, -centreZ); // Centre grid
     background(BLACK); // Draw over previous grid
     for (int z = 0; z < depth; z++) { // NOTE Cannot multithread cell drawing
       for (int y = 0; y < height; y++) {
