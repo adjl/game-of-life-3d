@@ -8,9 +8,10 @@ final int GRID_HEIGHT = 32;
 final int GRID_DEPTH = 32;
 final int CELL_SIZE = 5;
 final int CELL_PROBABILITY_TO_LIVE = 5;
-final float RADIAN = PI / 180.0;
 // --------------------------
 
+
+final float RADIAN = PI / 180.0;
 
 boolean simulationIsRunning = false;
 float cameraAngle = 0.0;
@@ -59,10 +60,10 @@ void keyPressed() {
       grid.randomise();
       grid.draw();
       break;
-    case 'j': // Move camera left
+    case 'j': // Rotate camera left
       cameraAngle += RADIAN;
       break;
-    case 'k': // Move camera right
+    case 'k': // Rotate camera right
       cameraAngle -= RADIAN;
       break;
     case 'q': // Quit
