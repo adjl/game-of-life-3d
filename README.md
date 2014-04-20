@@ -32,7 +32,7 @@ Modify the following in [`GameOfLife3D.pde`](https://github.com/adeijosol/GameOf
 - Live cells with less than 7 neighbours die of underpopulation.
 - Live cells with more than 17 neighbours die of overpopulation.
 - Dead cells with 8 neighbours live by reproduction.
-- Live cells with 7 to 17 neighbours, inclusive, live on to the next generation.
+- Live cells with 7 to 17 neighbours live on to the next generation.
 
 The current rules result in a mostly full grid. These are clearly ineffective, and will be continually refined.
 
