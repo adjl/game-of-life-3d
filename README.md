@@ -34,7 +34,10 @@ Modify the following in [`GameOfLife3D.pde`](https://github.com/adeijosol/GameOf
 - Dead cells with 8 neighbours live by reproduction.
 - Live cells with 7 to 17 neighbours live on to the next generation.
 
-The current rules result in a mostly full grid. These are clearly ineffective, and will be continually refined.
+The current rules result in a mostly full grid.
+
+## Reference
+- [https://sites.google.com/site/fishbikeonmefi/mefi-discussions/3d-game-of-life#TOC-3D-Life-2](https://sites.google.com/site/fishbikeonmefi/mefi-discussions/3d-game-of-life#TOC-3D-Life-2)
 
 ## Notes
 - The simulation starts with a random seed.
