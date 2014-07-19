@@ -1,116 +1,73 @@
 class Grid {
 
-  final color BLACK = color(0, 0, 0);
-
   int width;
   int height;
   int depth;
   int cellSize;
-  Cell[][][] previousCells;
+  float angle;
   Cell[][][] cells;
+  Cell[][][] prevCells;
 
   Grid(int width, int height, int depth, int cellSize) {
     this.width = width;
     this.height = height;
     this.depth = depth;
     this.cellSize = cellSize;
-    previousCells = new Cell[depth][height][width];
+    angle = 0.0;
     cells = new Cell[depth][height][width];
+    prevCells = new Cell[depth][height][width];
 
     initialise();
   }
 
+  void setAngle(float angle) {
+    this.angle = angle;
+  }
+
   void initialise() { // Fill grid with cells
-    for (int i = 0; i < depth; i++) {
-      final int z = i; // To reference z within the inner class
-      (new Thread() {
-        public void run() {
-          for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-              cells[z][y][x] = new Cell(x, y, z, cellSize, false);
-            }
-          }
+    for (int z = 0; z < depth; z++) {
+      for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+          cells[z][y][x] = new Cell(x, y, z, false);
         }
-      }).start();
+      }
     }
   }
 
   void clear() {
-    for (int i = 0; i < depth; i++) {
-      final int z = i;
-      (new Thread() {
-        public void run() {
-          for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-              cells[z][y][x].die();
-            }
-          }
+    for (int z = 0; z < depth; z++) {
+      for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+          cells[z][y][x].die();
         }
-      }).start();
+      }
     }
   }
 
   void randomise() {
-    for (int i = 0; i < depth; i++) {
-      final int z = i;
-      (new Thread() {
-        public void run() {
-          for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-              if (int(random(CELL_PROBABILITY_TO_LIVE)) == 0) cells[z][y][x].live();
-              else cells[z][y][x].die();
-            }
+    for (int z = 0; z < depth; z++) {
+      for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+          if (int(random(CELL_CHANCE_TO_LIVE)) == 0) {
+            cells[z][y][x].live();
+          } else {
+            cells[z][y][x].die();
           }
         }
-      }).start();
+      }
     }
   }
 
   void update() {
-    for (int i = 0; i < depth; i++) { // Copy cells to purely calculate the next generation
-      final int z = i;
-      (new Thread() {
-        public void run() {
-          for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-              previousCells[z][y][x] = new Cell(x, y, z, cellSize, cells[z][y][x].isAlive());
-            }
-          }
-        }
-      }).start();
-    }
-
-    for (int z = 0; z < depth; z++) { // Calculate next generation
-      (new TickThread(z)).start();
-    }
-  }
-
-  void draw() {
-    pushMatrix();
-    rotateY(cameraAngle);
-    translate(-centreX, -centreY, -centreZ); // Centre grid
-    background(BLACK); // Draw over previous grid
-    for (int z = 0; z < depth; z++) { // NOTE Cannot multithread cell drawing
+    for (int z = 0; z < depth; z++) { // Copy cells to calculate the next generation
       for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
-          Cell cell = cells[z][y][x];
-          if (cell.isAlive()) cell.draw();
+          prevCells[z][y][x] = new Cell(x, y, z, cells[z][y][x].isAlive());
         }
       }
     }
-    popMatrix();
-  }
 
-
-  class TickThread extends Thread {
-
-    int z;
-
-    TickThread(int z) {
-      this.z = z;
-    }
-
-    void run() {
+    for (int z = 0; z < depth; z++) { // Calculate next generation
       for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
           if (isAlive(x, y, z) && neighbours(x, y, z) < 7) {
@@ -123,27 +80,53 @@ class Grid {
         }
       }
     }
+  }
 
-    boolean isAlive(int x, int y, int z) {
-      return previousCells[z][y][x].isAlive();
-    }
+  boolean isAlive(int x, int y, int z) {
+    return prevCells[z][y][x].isAlive();
+  }
 
-    int neighbours(int x, int y, int z) {
-      int neighbours = 0;
+  int neighbours(int x, int y, int z) {
+    int neighbours = 0;
 
-      for (int zi = z - 1; zi <= z + 1; zi++) { // NOTE Wrapping does not work due to multithreading
-        if (zi < 0 || zi >= depth) continue;
-        for (int yi = y - 1; yi <= y + 1; yi++) {
-          if (yi < 0 || yi >= height) continue;
-          for (int xi = x - 1; xi <= x + 1; xi++) {
-            if (xi < 0 || xi >= width) continue;
-            if (xi == x && yi == y && zi == z) continue;
-            if (previousCells[zi][yi][xi].isAlive()) neighbours++;
+    for (int zi = z - 1; zi <= z + 1; zi++) {
+      if (zi < 0 || zi >= depth) {
+        continue;
+      }
+      for (int yi = y - 1; yi <= y + 1; yi++) {
+        if (yi < 0 || yi >= height) {
+          continue;
+        }
+        for (int xi = x - 1; xi <= x + 1; xi++) {
+          if (xi < 0 || xi >= width) {
+            continue;
+          } else if (xi == x && yi == y && zi == z) {
+            continue;
+          } else if (prevCells[zi][yi][xi].isAlive()) {
+            neighbours++;
           }
         }
       }
-
-      return neighbours;
     }
+
+    return neighbours;
+  }
+
+  void draw() {
+    background(#000000); // Draw over previous grid
+    pushMatrix();
+    rotateY(angle);
+    translate(-centreX, -centreY, -centreZ); // Centre grid
+    for (int z = 0; z < depth; z++) {
+      for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+          Cell cell = cells[z][y][x];
+          if (cell.isAlive()) {
+            cell.draw(cellSize);
+          }
+        }
+      }
+    }
+    popMatrix();
   }
 }

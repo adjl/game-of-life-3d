@@ -1,38 +1,34 @@
-// Modify these as preferred:
-// --------------------------
-final int SCREEN_WIDTH = 1366;
-final int SCREEN_HEIGHT = 768;
+final int WIDTH = 1366;
+final int HEIGHT = 768;
 final int ANIMATION_DELAY = 100;
 final int GRID_WIDTH = 32;
 final int GRID_HEIGHT = 32;
 final int GRID_DEPTH = 32;
 final int CELL_SIZE = 5;
-final int CELL_PROBABILITY_TO_LIVE = 5;
-// --------------------------
-
-
+final int CELL_CHANCE_TO_LIVE = 5;
+final int MAX_COLOUR = 256;
 final float RADIAN = PI / 180.0;
 
-boolean simulationIsRunning = false;
-float cameraAngle = 0.0;
-float zoomLevel = RADIAN * 175;
-
+boolean running;
+float angle;
+float zoom;
 int centreX;
 int centreY;
 int centreZ;
+
 Grid grid;
 
-
 void setup() {
-  size(SCREEN_WIDTH, SCREEN_HEIGHT, P3D);
-  noStroke();
-
+  running = false;
+  angle = 0.0;
+  zoom = RADIAN * 180;
   centreX = GRID_WIDTH / 2 * CELL_SIZE;
   centreY = GRID_HEIGHT / 2 * CELL_SIZE;
   centreZ = GRID_DEPTH / 2 * CELL_SIZE;
 
-  camera(0, 0, centreZ * zoomLevel, 0, 0, 0, 0, 1, 0);
-
+  size(WIDTH, HEIGHT, P3D);
+  noStroke();
+  camera(0, 0, centreZ * zoom, 0, 0, 0, 0, 1, 0);
   grid = new Grid(GRID_WIDTH, GRID_HEIGHT, GRID_DEPTH, CELL_SIZE);
   grid.randomise();
 }
@@ -40,18 +36,21 @@ void setup() {
 void draw() {
   lights();
 
-  if (simulationIsRunning) grid.update();
+  if (running) {
+    grid.update();
+  }
   grid.draw();
 
   try {
     Thread.sleep(ANIMATION_DELAY);
-  } catch (InterruptedException e) {}
+  } catch (InterruptedException e) {
+  }
 }
 
 void keyPressed() {
   switch (key) {
-    case 'p': // Resume/pause simulation
-      simulationIsRunning = !simulationIsRunning;
+    case 'p': // Resume/pause
+      running = !running;
       break;
     case 'c': // Clear grid
       grid.clear();
@@ -61,19 +60,21 @@ void keyPressed() {
       grid.randomise();
       grid.draw();
       break;
-    case 'j': // Rotate camera left
-      cameraAngle += RADIAN;
+    case 'j': // Rotate left
+      angle -= RADIAN;
+      grid.setAngle(angle);
       break;
-    case 'k': // Rotate camera right
-      cameraAngle -= RADIAN;
+    case 'k': // Rotate right
+      angle += RADIAN;
+      grid.setAngle(angle);
       break;
     case 'h': // Zoom in
-      zoomLevel -= RADIAN;
-      camera(0, 0, centreZ * zoomLevel, 0, 0, 0, 0, 1, 0);
+      zoom -= RADIAN;
+      camera(0, 0, centreZ * zoom, 0, 0, 0, 0, 1, 0);
       break;
     case 'l': // Zoom out
-      zoomLevel += RADIAN;
-      camera(0, 0, centreZ * zoomLevel, 0, 0, 0, 0, 1, 0);
+      zoom += RADIAN;
+      camera(0, 0, centreZ * zoom, 0, 0, 0, 0, 1, 0);
       break;
     case 'q': // Quit
       exit();

@@ -1,19 +1,15 @@
 class Cell {
 
-  final int MAX_COLOUR_VALUE = 256;
-
   int x;
   int y;
   int z;
-  int size;
   boolean alive;
   color colour;
 
-  Cell(int x, int y, int z, int size, boolean alive) {
+  Cell(int x, int y, int z, boolean alive) {
     this.x = x;
     this.y = y;
     this.z = z;
-    this.size = size;
     this.alive = alive;
     colour = 0; // No colour
   }
@@ -24,7 +20,7 @@ class Cell {
 
   void live() {
     alive = true;
-    colour = generateRandomColour();
+    colour = generateColour();
   }
 
   void die() {
@@ -32,7 +28,7 @@ class Cell {
     colour = 0;
   }
 
-  void draw() {
+  void draw(int size) {
     fill(colour);
     pushMatrix();
     translate(x * size, y * size, z * size);
@@ -40,7 +36,7 @@ class Cell {
     popMatrix();
   }
 
-  color generateRandomColour() {
-    return color(random(MAX_COLOUR_VALUE), random(MAX_COLOUR_VALUE), random(MAX_COLOUR_VALUE));
+  color generateColour() {
+    return color(random(MAX_COLOUR), random(MAX_COLOUR), random(MAX_COLOUR));
   }
 }
