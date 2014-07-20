@@ -1,29 +1,29 @@
 # Game of Life 3D
 A 3D implementation of Conway's Game of Life in Processing.
 
-![First screenshot of GameOfLife3D](https://github.com/adeijosol/GameOfLife3D/raw/master/screenshot1.png)
-![Second screenshot of GameOfLife3D](https://github.com/adeijosol/GameOfLife3D/raw/master/screenshot2.png)
+![First screenshot of GameOfLife3D](https://github.com/adjl/GameOfLife3D/raw/master/screenshot0.png)
+![Second screenshot of GameOfLife3D](https://github.com/adjl/GameOfLife3D/raw/master/screenshot1.png)
 
 ## Controls
 `p` - Resume/pause the simulation  
 `c` - Clear the grid  
 `r` - Randomise the grid (generate a new seed)  
-`j` - Rotate the camera left around the grid  
-`k` - Rotate the camera right around the grid  
+`j` - Rotate the grid left  
+`k` - Rotate the grid right  
 `h` - Zoom the camera in  
 `l` - Zoom the camera out  
 `q` - Quit
 
 ## Parameters
-Modify the following in [`GameOfLife3D.pde`](https://github.com/adeijosol/GameOfLife3D/raw/master/GameOfLife3D.pde) to your preferences:
-- `SCREEN_WIDTH` (default: 1366)
-- `SCREEN_HEIGHT` (defaul: 768)
+Modify the following in [`GameOfLife3D.pde`](https://github.com/adjl/GameOfLife3D/raw/master/GameOfLife3D.pde) to your preferences:
+- `WIDTH` (default: 1366)
+- `HEIGHT` (defaul: 768)
 - `ANIMATION_DELAY` (default: 100)
 - `GRID_WIDTH` (default: 32)
 - `GRID_HEIGHT` (default: 32)
 - `GRID_DEPTH` (default: 32)
 - `CELL_SIZE` (default: 5)
-- `CELL_PROBABILITY_TO_LIVE` (default: 5)
+- `CELL_CHANCE_TO_LIVE` (default: 5)
   - Relevant only when randomising the grid
   - Must be greater than 0
   - 1 = 100%, 2 = 50%, 4 = 25%, etc.
@@ -39,9 +39,8 @@ The current rules result in a mostly full grid.
 ## Reference
 - [https://sites.google.com/site/fishbikeonmefi/mefi-discussions/3d-game-of-life#TOC-3D-Life-2](https://sites.google.com/site/fishbikeonmefi/mefi-discussions/3d-game-of-life#TOC-3D-Life-2)
 
-## Notes
+## Note
 - The simulation starts with a random seed.
-- Flashes of random background colours occur occasionally.
 
 ## License
-[MIT License](https://github.com/adeijosol/GameOfLife3D/raw/master/LICENSE)
+[MIT License](https://github.com/adjl/GameOfLife3D/raw/master/LICENSE)
