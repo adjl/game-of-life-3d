@@ -6,7 +6,6 @@ final int GRID_HEIGHT = 32;
 final int GRID_DEPTH = 32;
 final int CELL_SIZE = 5;
 final int CELL_CHANCE_TO_LIVE = 5;
-final int MAX_COLOUR = 256;
 final float RADIAN = PI / 180.0;
 
 boolean running;

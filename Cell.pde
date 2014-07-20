@@ -37,6 +37,6 @@ class Cell {
   }
 
   color generateColour() {
-    return color(random(MAX_COLOUR), random(MAX_COLOUR), random(MAX_COLOUR));
+    return color(random(256), random(256), random(256));
   }
 }
