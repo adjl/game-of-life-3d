@@ -1,5 +1,3 @@
-final int WIDTH = 1366;
-final int HEIGHT = 768;
 final int ANIMATION_DELAY = 100;
 final int GRID_WIDTH = 32;
 final int GRID_HEIGHT = 32;
@@ -25,7 +23,7 @@ void setup() {
   centreY = GRID_HEIGHT / 2 * CELL_SIZE;
   centreZ = GRID_DEPTH / 2 * CELL_SIZE;
 
-  size(WIDTH, HEIGHT, P3D);
+  size(displayWidth, displayHeight, P3D);
   noStroke();
   camera(0, 0, centreZ * zoom, 0, 0, 0, 0, 1, 0);
   grid = new Grid(GRID_WIDTH, GRID_HEIGHT, GRID_DEPTH, CELL_SIZE);
