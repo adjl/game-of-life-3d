@@ -23,7 +23,9 @@ void setup() {
     zoom = RADIAN * 180.0;
     zoomCamera();
 
-    grid = new Grid(GRID_WIDTH, GRID_HEIGHT, GRID_DEPTH, CELL_SIZE, centreX, centreY, centreZ);
+    grid = new GridBuilder().setWidth(GRID_WIDTH).setHeight(GRID_HEIGHT).setDepth(GRID_DEPTH)
+            .setCellSize(CELL_SIZE).setCentreX(centreX).setCentreY(centreY).setCentreZ(centreZ)
+            .build();
     grid.randomise();
 }
 
