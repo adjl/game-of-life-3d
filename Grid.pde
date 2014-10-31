@@ -4,16 +4,22 @@ private class Grid {
     private final int mHeight;
     private final int mDepth;
     private final int mCellSize;
+    private final int mCentreX;
+    private final int mCentreY;
+    private final int mCentreZ;
     private final Cell[][][] mCells;
     private final Cell[][][] mPrevCells;
 
     private float mAngle;
 
-    Grid(int width, int height, int depth, int cellSize) {
+    Grid(int width, int height, int depth, int cellSize, int centreX, int centreY, int centreZ) {
         mWidth = width;
         mHeight = height;
         mDepth = depth;
         mCellSize = cellSize;
+        mCentreX = centreX;
+        mCentreY = centreY;
+        mCentreZ = centreZ;
         mCells = new Cell[depth][height][width];
         mPrevCells = new Cell[depth][height][width];
         initialise();
@@ -112,7 +118,7 @@ private class Grid {
         background(#000000); // Draw over previous grid
         pushMatrix();
         rotateY(mAngle);
-        translate(-centreX, -centreY, -centreZ); // Centre grid
+        translate(-mCentreX, -mCentreY, -mCentreZ); // Centre grid
         for (int z = 0; z < mDepth; z++) {
             for (int y = 0; y < mHeight; y++) {
                 for (int x = 0; x < mWidth; x++) {

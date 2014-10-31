@@ -10,21 +10,20 @@ private Grid grid;
 private boolean running;
 private float angle;
 private float zoom;
-private int centreX;
-private int centreY;
 private int centreZ;
 
 @Override
 void setup() {
-    zoom = RADIAN * 180.0;
-    centreX = GRID_WIDTH / 2 * CELL_SIZE;
-    centreY = GRID_HEIGHT / 2 * CELL_SIZE;
-    centreZ = GRID_DEPTH / 2 * CELL_SIZE;
-
     size(displayWidth, displayHeight, P3D);
     noStroke();
+
+    final int centreX = GRID_WIDTH / 2 * CELL_SIZE;
+    final int centreY = GRID_HEIGHT / 2 * CELL_SIZE;
+    centreZ = GRID_DEPTH / 2 * CELL_SIZE;
+    zoom = RADIAN * 180.0;
     zoomCamera();
-    grid = new Grid(GRID_WIDTH, GRID_HEIGHT, GRID_DEPTH, CELL_SIZE);
+
+    grid = new Grid(GRID_WIDTH, GRID_HEIGHT, GRID_DEPTH, CELL_SIZE, centreX, centreY, centreZ);
     grid.randomise();
 }
 
