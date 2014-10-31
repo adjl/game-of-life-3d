@@ -1,42 +1,48 @@
-class Cell {
+private class Cell {
 
-  int x;
-  int y;
-  int z;
-  boolean alive;
-  color colour;
+    private static final int MAX_COLOUR = 256;
 
-  Cell(int x, int y, int z, boolean alive) {
-    this.x = x;
-    this.y = y;
-    this.z = z;
-    this.alive = alive;
-    colour = 0; // No colour
-  }
+    private final int mX;
+    private final int mY;
+    private final int mZ;
 
-  boolean isAlive() {
-    return alive;
-  }
+    private boolean mAlive;
+    private color mColour;
 
-  void live() {
-    alive = true;
-    colour = generateColour();
-  }
+    Cell(int x, int y, int z) {
+        mX = x;
+        mY = y;
+        mZ = z;
+    }
 
-  void die() {
-    alive = false;
-    colour = 0;
-  }
+    Cell(int x, int y, int z, boolean alive) {
+        this(x, y, z);
+        mAlive = alive;
+    }
 
-  void draw(int size) {
-    fill(colour);
-    pushMatrix();
-    translate(x * size, y * size, z * size);
-    box(size);
-    popMatrix();
-  }
+    private color generateColour() {
+        return color(random(MAX_COLOUR), random(MAX_COLOUR), random(MAX_COLOUR));
+    }
 
-  color generateColour() {
-    return color(random(256), random(256), random(256));
-  }
+    boolean isAlive() {
+        return mAlive;
+    }
+
+    void live() {
+        mAlive = true;
+        mColour = generateColour();
+    }
+
+    void die() {
+        mAlive = false;
+        mColour = 0;
+    }
+
+    void draw(int size) {
+        fill(mColour);
+        pushMatrix();
+        translate(mX * size, mY * size, mZ * size);
+        box(size);
+        popMatrix();
+    }
 }
