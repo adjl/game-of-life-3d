@@ -16,17 +16,15 @@ A 3D implementation of Conway's Game of Life in Processing.
 
 ## Parameters
 Modify the following in [`GameOfLife3D.pde`](https://github.com/adjl/GameOfLife3D/raw/master/GameOfLife3D.pde) to your preferences:
-- `WIDTH` (default: 1366)
-- `HEIGHT` (defaul: 768)
 - `ANIMATION_DELAY` (default: 100)
 - `GRID_WIDTH` (default: 32)
 - `GRID_HEIGHT` (default: 32)
 - `GRID_DEPTH` (default: 32)
-- `CELL_SIZE` (default: 5)
 - `CELL_CHANCE_TO_LIVE` (default: 5)
   - Relevant only when randomising the grid
   - Must be greater than 0
   - 1 = 100%, 2 = 50%, 4 = 25%, etc.
+- `CELL_SIZE` (default: 5)
 
 ## Rules
 - Live cells with less than 7 neighbours die of underpopulation.
