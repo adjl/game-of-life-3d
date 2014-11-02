@@ -3,8 +3,8 @@ private static final int ANIMATION_DELAY = 100;
 private static final int GRID_WIDTH = 32;
 private static final int GRID_HEIGHT = 32;
 private static final int GRID_DEPTH = 32;
-private static final int CELL_SIZE = 5;
 private static final int CELL_CHANCE_TO_LIVE = 5;
+private static final int CELL_SIZE = 5;
 
 private Grid grid;
 private boolean running;
