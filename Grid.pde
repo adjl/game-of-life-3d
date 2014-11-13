@@ -106,7 +106,7 @@ private class Grid {
                         mCells[z][y][x].die(); // Die of underpopulation
                     } else if (isAlive(x, y, z) && neighbours(x, y, z) > NEIGHBOUR_MAXIMUM) {
                         mCells[z][y][x].die(); // Die of overpopulation
-                    } else if (!isAlive(x, y, z) && neighbours(x, y, z) == NEIGHBOUR_REPRODUCTIVE) {
+                    } else if (!isAlive(x, y, z) && neighbours(x, y, z) == NEIGHBOUR_REPRODUCTION) {
                         mCells[z][y][x].live(); // Live by reproduction
                     }
                 }
