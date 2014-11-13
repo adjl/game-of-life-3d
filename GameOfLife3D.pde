@@ -6,11 +6,11 @@ private static final int GRID_DEPTH = 32;
 private static final int CELL_CHANCE_TO_LIVE = 5;
 private static final int CELL_SIZE = 5;
 
-private Grid grid;
-private boolean running;
-private float angle;
-private float zoom;
-private int centreZ;
+private Grid mGrid;
+private boolean mRunning;
+private float mAngle;
+private float mZoom;
+private int mCentreZ;
 
 @Override
 void setup() {
@@ -19,59 +19,58 @@ void setup() {
 
     final int centreX = GRID_WIDTH / 2 * CELL_SIZE;
     final int centreY = GRID_HEIGHT / 2 * CELL_SIZE;
-    centreZ = GRID_DEPTH / 2 * CELL_SIZE;
-    zoom = RADIAN * 180.0;
+    mCentreZ = GRID_DEPTH / 2 * CELL_SIZE;
+    mZoom = RADIAN * 180.0;
     zoomCamera();
 
-    grid = new GridBuilder().setWidth(GRID_WIDTH).setHeight(GRID_HEIGHT).setDepth(GRID_DEPTH)
-            .setCellSize(CELL_SIZE).setCentreX(centreX).setCentreY(centreY).setCentreZ(centreZ)
+    mGrid = new GridBuilder().setWidth(GRID_WIDTH).setHeight(GRID_HEIGHT).setDepth(GRID_DEPTH)
+            .setCellSize(CELL_SIZE).setCentreX(centreX).setCentreY(centreY).setCentreZ(mCentreZ)
             .build();
-    grid.randomise();
+    mGrid.randomise();
 }
 
 @Override
 void draw() {
     lights();
 
-    if (running) {
-        grid.update();
+    if (mRunning) {
+        mGrid.update();
     }
-    grid.draw();
+    mGrid.draw();
 
     try {
         Thread.sleep(ANIMATION_DELAY);
-    } catch (InterruptedException e) {
-    }
+    } catch (InterruptedException e) {}
 }
 
 @Override
 void keyPressed() {
     switch (key) {
         case 'p': // Resume/pause
-            running = !running;
+            mRunning = !mRunning;
             break;
-        case 'c': // Clear grid
-            grid.clear();
-            grid.draw();
+        case 'c': // Clear mGrid
+            mGrid.clear();
+            mGrid.draw();
             break;
-        case 'r': // Randomise grid
-            grid.randomise();
-            grid.draw();
+        case 'r': // Randomise mGrid
+            mGrid.randomise();
+            mGrid.draw();
             break;
         case 'j': // Rotate left
-            angle -= RADIAN;
-            grid.setAngle(angle);
+            mAngle -= RADIAN;
+            mGrid.setAngle(mAngle);
             break;
         case 'k': // Rotate right
-            angle += RADIAN;
-            grid.setAngle(angle);
+            mAngle += RADIAN;
+            mGrid.setAngle(mAngle);
             break;
         case 'h': // Zoom in
-            zoom -= RADIAN;
+            mZoom -= RADIAN;
             zoomCamera();
             break;
         case 'l': // Zoom out
-            zoom += RADIAN;
+            mZoom += RADIAN;
             zoomCamera();
             break;
         case 'q': // Quit
@@ -81,5 +80,5 @@ void keyPressed() {
 }
 
 private void zoomCamera() {
-    camera(0, 0, centreZ * zoom, 0, 0, 0, 0, 1, 0);
+    camera(0, 0, mCentreZ * mZoom, 0, 0, 0, 0, 1, 0);
 }
