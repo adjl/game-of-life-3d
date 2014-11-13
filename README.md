@@ -25,6 +25,9 @@ Modify the following in [`GameOfLife3D.pde`](https://github.com/adjl/GameOfLife3
   - Must be greater than 0
   - 1 = 100%, 2 = 50%, 4 = 25%, etc.
 - `CELL_SIZE` (default: 5)
+- `NEIGHBOUR_MAXIMUM` (default: 17)
+- `NEIGHBOUR_MINIMUM` (default: 7)
+- `NEIGHBOUR_REPRODUCTION` (default: 8)
 
 ## Rules
 - Live cells with less than 7 neighbours die of underpopulation.
