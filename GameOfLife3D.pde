@@ -5,6 +5,9 @@ private static final int GRID_HEIGHT = 32;
 private static final int GRID_DEPTH = 32;
 private static final int CELL_CHANCE_TO_LIVE = 5;
 private static final int CELL_SIZE = 5;
+private static final int NEIGHBOUR_MAXIMUM = 17;
+private static final int NEIGHBOUR_MINIMUM = 7;
+private static final int NEIGHBOUR_REPRODUCTIVE = 8;
 
 private Grid mGrid;
 private boolean mRunning;

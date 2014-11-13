@@ -102,11 +102,11 @@ private class Grid {
         for (int z = 0; z < mDepth; z++) { // Calculate next generation
             for (int y = 0; y < mHeight; y++) {
                 for (int x = 0; x < mWidth; x++) {
-                    if (isAlive(x, y, z) && neighbours(x, y, z) < 7) {
+                    if (isAlive(x, y, z) && neighbours(x, y, z) < NEIGHBOUR_MINIMUM) {
                         mCells[z][y][x].die(); // Die of underpopulation
-                    } else if (isAlive(x, y, z) && neighbours(x, y, z) > 17) {
+                    } else if (isAlive(x, y, z) && neighbours(x, y, z) > NEIGHBOUR_MAXIMUM) {
                         mCells[z][y][x].die(); // Die of overpopulation
-                    } else if (!isAlive(x, y, z) && neighbours(x, y, z) == 8) {
+                    } else if (!isAlive(x, y, z) && neighbours(x, y, z) == NEIGHBOUR_REPRODUCTIVE) {
                         mCells[z][y][x].live(); // Live by reproduction
                     }
                 }
