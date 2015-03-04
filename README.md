@@ -1,5 +1,5 @@
 # Game of Life 3D
-A 3D implementation of Conway's Game of Life in Processing.
+3D implementation of Conway's Game of Life in Processing
 
 ![First screenshot of GameOfLife3D](https://github.com/adjl/GameOfLife3D/raw/master/img/screenshot0.png)
 ![Second screenshot of GameOfLife3D](https://github.com/adjl/GameOfLife3D/raw/master/img/screenshot1.png)
