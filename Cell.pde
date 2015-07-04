@@ -8,16 +8,12 @@ private class Cell {
 
     private boolean mAlive;
     private color mColour;
+    private int mNeighbours;
 
     Cell(int x, int y, int z) {
         mX = x;
         mY = y;
         mZ = z;
-    }
-
-    Cell(int x, int y, int z, boolean alive) {
-        this(x, y, z);
-        mAlive = alive;
     }
 
     private color generateColour() {
@@ -26,6 +22,14 @@ private class Cell {
 
     boolean isAlive() {
         return mAlive;
+    }
+
+    int getNeighbours() {
+        return mNeighbours;
+    }
+
+    void setNeighbours(int neighbours) {
+        mNeighbours = neighbours;
     }
 
     void live() {

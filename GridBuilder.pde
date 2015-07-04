@@ -8,8 +8,6 @@ private class GridBuilder {
     private int mCentreY;
     private int mCentreZ;
 
-    GridBuilder() {}
-
     GridBuilder setWidth(int width) {
         mWidth = width;
         return this;

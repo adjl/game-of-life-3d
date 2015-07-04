@@ -30,16 +30,18 @@ void setup() {
             .setCellSize(CELL_SIZE).setCentreX(centreX).setCentreY(centreY).setCentreZ(mCentreZ)
             .build();
     mGrid.randomise();
+
+    lights();
+    mGrid.draw();
 }
 
 @Override
 void draw() {
-    lights();
-
     if (mRunning) {
+        lights();
         mGrid.update();
+        mGrid.draw();
     }
-    mGrid.draw();
 
     try {
         Thread.sleep(ANIMATION_DELAY);
@@ -57,6 +59,7 @@ void keyPressed() {
             mGrid.draw();
             break;
         case 'r': // Randomise mGrid
+            lights();
             mGrid.randomise();
             mGrid.draw();
             break;
